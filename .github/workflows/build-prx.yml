@@ -19,7 +19,7 @@ jobs:
           ls -la bt_a2dp.prx
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bt_a2dp-plugin
           path: bt_a2dp.prx
