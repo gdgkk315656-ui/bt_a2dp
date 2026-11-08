@@ -1,0 +1,19 @@
+name: Build bt_a2dp.prx
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile bt_a2dp plugin
+        run: |
+          make clean || true
+          make
+          ls -la bt_a2dp.prx
