@@ -17,3 +17,9 @@ jobs:
           make clean || true
           make
           ls -la bt_a2dp.prx
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: bt_a2dp-plugin
+          path: bt_a2dp.prx
