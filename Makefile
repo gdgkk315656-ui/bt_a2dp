@@ -1,13 +1,5 @@
-TARGET = bt_a2dp.prx
-OBJS = src/bt_a2dp_main.c
+TARGET = bt_all_devices.prx
+OBJS = src/bt_all_devices_main.o
 
-CFLAGS = -O3 -Wall -fPIC -shared -DA2DP -DAVDTP -DSBC
-LDFLAGS =
-
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LDFLAGS)
-
-clean:
-	rm -f $(TARGET)
+PREFIX ?= $(PS4SDK)
+include $(PREFIX)/make/ps4lib.mk
