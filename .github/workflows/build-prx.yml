@@ -1,4 +1,4 @@
-name: Build bt_a2dp.prx
+name: Build Universal Hook bt_a2dp.prx
 
 on:
   push:
@@ -12,14 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Compile bt_a2dp plugin
+      - name: Compile Universal Hook PRX
         run: |
-          make clean || true
-          make
+          gcc -O3 -Wall -fPIC -shared src/bt_a2dp_main.c -o bt_a2dp.prx
           ls -la bt_a2dp.prx
 
-      - name: Upload Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: bt_a2dp-plugin
+          name: bt_a2dp-universal-hook-plugin
           path: bt_a2dp.prx
