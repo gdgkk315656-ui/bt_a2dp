@@ -2,25 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* محاكاة دالة اعتراض اتصال البلوتوث (Hook) لكل الأجهزة */
-int hooked_bt_connect_handler(void *device_handle) {
-    // تنفيذ الاتصال الفعلي بالنظام
-    int result = 0; // افتراضياً 0 للنجاح أو غير ذلك للفشل
-    
-    // إذا تم الاتصال بنجاح لأي جهاز بلوتوث
-    if (result == 0) {
-        printf("Connected Successfully!\n");
-    } else {
-        printf("Connected Failed!!!\n");
+int (*orig_sceBtConnect)(int device_id) = NULL;
+
+int hooked_sceBtConnect(int device_id) {
+    int ret = 0;
+    if (orig_sceBtConnect) {
+        ret = orig_sceBtConnect(device_id);
     }
-    
-    return result;
+
+    if (ret >= 0) {
+        printf("[BT_UNIVERSAL] Connected Successfully! Device ID: %d\n", device_id);
+    } else {
+        printf("[BT_UNIVERSAL] Connected Failed!!! Error Code: 0x%X\n", ret);
+    }
+
+    return ret;
 }
 
-void __attribute__((constructor)) init_bt_hook(void) {
-    // تثبيت الهوك في الذاكرة عند تحميل البلوجن
+void __attribute__((constructor)) bt_universal_init(void) {
+    printf("[BT_UNIVERSAL] Universal Bluetooth Whitelist Bypass & Hook Loaded.\n");
 }
 
-void __attribute__((destructor)) cleanup_bt_hook(void) {
-    // تنظيف الهوك عند إيقاف التشغيل
+void __attribute__((destructor)) bt_universal_fini(void) {
+    printf("[BT_UNIVERSAL] Unloaded.\n");
 }
